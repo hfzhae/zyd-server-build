@@ -1,0 +1,23 @@
+{
+  "name": "zyd-server-build",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hfzhae/zyd-server-build.git"
+  },
+  "keywords": [],
+  "author": "zhangzheng",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hfzhae/zyd-server-build/issues"
+  },
+  "homepage": "https://github.com/hfzhae/zyd-server-build#readme",
+  "dependencies": {
+    "axios": "^0.21.4"
+  }
+}
