@@ -1,7 +1,9 @@
 # [zyd-server-build](https://github.com/hfzhae/zyd-server-build)
 <p>
   <a href="https://github.com/hfzhae/zyd-server-build/blob/main/LICENSE"><img style="margin-right:5px;" src="https://img.shields.io/badge/license-MIT-grren.svg"></a>
-  <img style="margin-right:5px;" src="https://img.shields.io/badge/jshaman-js-blue.svg">
+  <a href="http://www.jshaman.com/">
+  <img style="margin-right:5px;" src="https://img.shields.io/badge/jshaman-blue.svg">
+  </a>
   <a href="https://www.npmjs.com/package/zyd-server-build"><img style="margin-right:5px;" src="https://img.shields.io/badge/npm-passing-yellow.svg"></a>
 </p>
 
