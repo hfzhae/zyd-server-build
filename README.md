@@ -21,7 +21,8 @@ const app = new Zsb({
   ignoreDir: ["client"], // 忽略文件夹
   ignoreFile: ["publicService.js", ".gitmodules"], // 忽略文件
   vipCode: "free", // jshaman 的 vip号码
-  copyright: "Powered by zydsoft™"
+  copyright: "Powered by zydsoft™",
+  delay: 3000, // jshaman保护文件处理的间隔时间，默认3000毫秒，过短会导致保护失败
 }) 
 app.build()
 ```

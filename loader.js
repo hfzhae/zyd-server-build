@@ -8,13 +8,13 @@ const fs = require("fs")
 const path = require("path")
 let t = 0
 
-function builder({ src = ".", dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "" }) {
+function builder({ src = ".", dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "", delay = 3000 }) {
   console.log("Start build")
   exists(dst)
-  copy({ src, dst, ignoreDir, ignoreFile, vipCode, copyright })
+  copy({ src, dst, ignoreDir, ignoreFile, vipCode, copyright, delay })
 }
 
-function copy({ src, dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "" }) {
+function copy({ src, dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "", delay = 3000 }) {
   if (!src) {
     return
   }
@@ -27,7 +27,7 @@ function copy({ src, dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "
         return
       }
       if (path.extname(_src) === ".js") {
-        t += 3000
+        t += delay
         await setTimeout(async () => {
           readable = fs.readFileSync(_src, 'utf-8')
           const res = await axios.post('https://www.jshaman.com:4430/submit_js_code/', {
@@ -53,7 +53,7 @@ function copy({ src, dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "
         return
       }
       makeDir(_dst)
-      copy({ src: _src, dst: _dst, ignoreDir, ignoreFile, vipCode, copyright })
+      copy({ src: _src, dst: _dst, ignoreDir, ignoreFile, vipCode, copyright, delay })
     }
   })
 }
