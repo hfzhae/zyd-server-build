@@ -36,7 +36,7 @@ function copy({ src, dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "
           })
           console.log("build file:", _src, "=>", _dst, bytesToSize(st.size), res.data.message)
           if (res.data && res.data.status === 0) {
-            fs.writeFileSync(_dst, copyright ? "/* " + copyright + " */" : "" + res.data.content.substring(29, res.data.content.length))
+            fs.writeFileSync(_dst, (copyright ? "/* " + copyright + " */" : "") + res.data.content.substring(29, res.data.content.length))
           }
         }, t);
       } else {
