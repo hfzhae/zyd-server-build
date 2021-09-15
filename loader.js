@@ -8,13 +8,13 @@ const fs = require("fs")
 const path = require("path")
 let t = 0
 
-function builder({ src = ".", dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "", delay = 3000, config = {}, noBuildFile = [] }) {
+function builder({ src = ".", dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "", delay = 5000, config = {}, noBuildFile = [] }) {
   console.log("Start build")
   exists(dst)
   copy({ src, dst, ignoreDir, ignoreFile, vipCode, copyright, delay, config, noBuildFile })
 }
 
-function copy({ src, dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "", delay = 3000, config = {}, noBuildFile = [] }) {
+function copy({ src, dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "", delay = 5000, config = {}, noBuildFile = [] }) {
   if (!src) {
     return
   }

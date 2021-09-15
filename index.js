@@ -23,7 +23,7 @@ class ZydBuild {
     this.ignoreFile = ignoreFile || []
     this.vipCode = vipCode || "free"
     this.copyright = copyright || ""
-    this.delay = delay || 3000
+    this.delay = delay || 5000
     this.config = config || {}
     this.noBuildFile = noBuildFile || []
   }
