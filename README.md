@@ -20,6 +20,8 @@ const app = new Zsb({
   dst: "../build", // 目标文件夹
   ignoreDir: ["client"], // 忽略文件夹
   ignoreFile: ["publicService.js", ".gitmodules"], // 忽略文件
+  vipCode: "free", // jshaman 的 vip号码
+  copyright: "Powered by zydsoft™"
 }) 
 app.build()
 ```

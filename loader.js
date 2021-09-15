@@ -8,13 +8,13 @@ const fs = require("fs")
 const path = require("path")
 let t = 0
 
-function builder({ src = ".", dst, ignoreDir, ignoreFile }) {
+function builder({ src = ".", dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "" }) {
   console.log("Start build")
   exists(dst)
-  copy({ src, dst, ignoreDir, ignoreFile })
+  copy({ src, dst, ignoreDir, ignoreFile, vipCode, copyright })
 }
 
-function copy({ src, dst, ignoreDir, ignoreFile }) {
+function copy({ src, dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "" }) {
   if (!src) {
     return
   }
@@ -32,11 +32,11 @@ function copy({ src, dst, ignoreDir, ignoreFile }) {
           readable = fs.readFileSync(_src, 'utf-8')
           const res = await axios.post('https://www.jshaman.com:4430/submit_js_code/', {
             js_code: readable,
-            vip_code: "free"
+            vip_code: vipCode
           })
           console.log("build file:", _src, "=>", _dst, bytesToSize(st.size), res.data.message)
           if (res.data && res.data.status === 0) {
-            fs.writeFileSync(_dst, "/* Powered by zydsoft™ */" + res.data.content.substring(29, res.data.content.length))
+            fs.writeFileSync(_dst, copyright ? "/* " + copyright + " */" : "" + res.data.content.substring(29, res.data.content.length))
           }
         }, t);
       } else {
@@ -53,7 +53,7 @@ function copy({ src, dst, ignoreDir, ignoreFile }) {
         return
       }
       makeDir(_dst)
-      copy({ src: _src, dst: _dst, ignoreDir, ignoreFile })
+      copy({ src: _src, dst: _dst, ignoreDir, ignoreFile, vipCode, copyright })
     }
   })
 }
