@@ -40,6 +40,7 @@ function copy({ src, dst, ignoreDir, ignoreFile }) {
           }
         }, t);
       } else {
+        console.log("build file:", _src, "=>", _dst, bytesToSize(st.size))
         // 创建读取流
         readable = fs.createReadStream(_src);
         // 创建写入流
