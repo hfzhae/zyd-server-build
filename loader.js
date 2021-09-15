@@ -9,11 +9,12 @@ const path = require("path")
 let t = 0
 
 function builder({ src = ".", dst, ignoreDir, ignoreFile }) {
+  console.log("Start build")
   exists(dst)
   copy({ src, dst, ignoreDir, ignoreFile })
 }
 
-function copy({ src, dst, ignoreDir, ignoreFile, vipCode = "free" }) {
+function copy({ src, dst, ignoreDir, ignoreFile }) {
   if (!src) {
     return
   }
@@ -31,11 +32,11 @@ function copy({ src, dst, ignoreDir, ignoreFile, vipCode = "free" }) {
           readable = fs.readFileSync(_src, 'utf-8')
           const res = await axios.post('https://www.jshaman.com:4430/submit_js_code/', {
             js_code: readable,
-            vip_code: vipCode
+            vip_code: "free"
           })
           console.log("build file:", _src, "=>", _dst, bytesToSize(st.size), res.data.message)
           if (res.data && res.data.status === 0) {
-            fs.writeFileSync(_dst, res.data.content)
+            fs.writeFileSync(_dst, "/* Powered by zydsoft™ */" + res.data.content.substring(29, res.data.content.length))
           }
         }, t);
       } else {
