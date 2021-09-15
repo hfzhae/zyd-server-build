@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/hfzhae/zyd-server-build.git"
   },
-  "keywords": [],
+  "keywords": ["nodejs", "jshaman"],
   "author": "zhangzheng",
   "license": "MIT",
   "bugs": {
