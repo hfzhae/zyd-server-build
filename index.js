@@ -6,11 +6,11 @@
 const { builder } = require("./loader")
 
 class ZydBuild {
-  constructor(conf) {
-    this.src = conf.src || "."
-    this.dst = conf.dst || "./build/server"
-    this.ignoreDir = ["node_modules", ...conf.ignoreDir]
-    this.ignoreFile = ["build.js", ...conf.ignoreFile]
+  constructor({ src, dst, ignoreDir = [], ignoreFile = [] } = {}) {
+    this.src = src || "./"
+    this.dst = dst || "./build"
+    this.ignoreDir = [".git", "build", "node_modules", ...ignoreDir]
+    this.ignoreFile = ["build.js", ...ignoreFile]
   }
 
   build() {
