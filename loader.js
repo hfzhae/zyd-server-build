@@ -30,11 +30,12 @@ function copy({ src, dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "
         t += delay
         await setTimeout(async () => {
           readable = fs.readFileSync(_src, 'utf-8')
-          const res = await axios.post('https://www.jshaman.com:4430/submit_js_code/', {
+          const param = {
             js_code: readable,
             vip_code: vipCode,
-            config: config
-          })
+          }
+          Object.keys(config).length > 0 && (param.config = config)
+          const res = await axios.post('https://www.jshaman.com:4430/submit_js_code/', param)
           console.log("build file:", _src, "=>", _dst, bytesToSize(st.size), res.data.message)
           if (res.data && res.data.status === 0) {
             fs.writeFileSync(_dst, (copyright ? "/* " + copyright + " */" : "") + res.data.content.substring(29, res.data.content.length))
