@@ -1,0 +1,25 @@
+# [zyd-server-build](https://github.com/hfzhae/zyd-server-build)
+<p>
+  <a href="https://github.com/hfzhae/zyd-server-build/blob/main/LICENSE"><img style="margin-right:5px;" src="https://img.shields.io/badge/license-MIT-grren.svg"></a>
+  <img style="margin-right:5px;" src="https://img.shields.io/badge/jshaman-js-blue.svg">
+  <a href="https://www.npmjs.com/package/zyd-server-build"><img style="margin-right:5px;" src="https://img.shields.io/badge/npm-passing-yellow.svg"></a>
+</p>
+
+## Installation
+```
+$ npm install -s zyd-server-build
+```
+
+## Quickstart
+```js
+const Zsb = require("zyd-server-build")
+const app = new Zsb({
+  src: "../", // 源文件夹
+  dst: "../build", // 目标文件夹
+  ignoreDir: ["client"], // 忽略文件夹
+  ignoreFile: ["publicService.js", ".gitmodules"], // 忽略文件
+}) 
+app.build()
+```
+## License
+[MIT](https://github.com/hfzhae/zyd-server-build/blob/main/LICENSE)

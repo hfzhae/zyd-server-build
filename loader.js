@@ -13,7 +13,7 @@ function builder({ src = ".", dst, ignoreDir, ignoreFile }) {
   copy({ src, dst, ignoreDir, ignoreFile })
 }
 
-function copy({ src, dst, ignoreDir, ignoreFile }) {
+function copy({ src, dst, ignoreDir, ignoreFile, vipCode = "free" }) {
   if (!src) {
     return
   }
@@ -31,7 +31,7 @@ function copy({ src, dst, ignoreDir, ignoreFile }) {
           readable = fs.readFileSync(_src, 'utf-8')
           const res = await axios.post('https://www.jshaman.com:4430/submit_js_code/', {
             js_code: readable,
-            vip_code: "free"
+            vip_code: vipCode
           })
           console.log("build file:", _src, "=>", _dst, bytesToSize(st.size), res.data.message)
           if (res.data && res.data.status === 0) {

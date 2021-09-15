@@ -11,6 +11,7 @@ class ZydBuild {
     this.dst = dst || "./build"
     this.ignoreDir = [".git", "build", "node_modules", ...ignoreDir]
     this.ignoreFile = ["build.js", ...ignoreFile]
+    this.vipCode = "free"
   }
 
   build() {
@@ -18,7 +19,8 @@ class ZydBuild {
       src: this.src,
       dst: this.dst,
       ignoreDir: this.ignoreDir,
-      ignoreFile: this.ignoreFile
+      ignoreFile: this.ignoreFile,
+      vipCode: this.vipCode
     })
   }
 }
