@@ -27,7 +27,7 @@ const app = new Zsb({
   ignoreFile: ["..//.gitmodules"], // 需要忽略的文件，文件路径前需要包含src的内容，如实例，忽略后不会被打包到目标文件夹中
   vipCode: "free", // jshaman 的 vip号码
   copyright: "Powered by zydsoft™",
-  delay: 3000, // jshaman保护文件处理的间隔时间，默认3000毫秒，过短会导致保护失败
+  delay: 5000, // jshaman保护文件处理的间隔时间，默认5000毫秒，过短会导致保护失败
   config: { polymorphic: 1} // jshaman保护参数，详见 http://www.jshaman.com 的相关文档
 }) 
 app.build()
