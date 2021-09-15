@@ -8,13 +8,13 @@ const fs = require("fs")
 const path = require("path")
 let t = 0
 
-function builder({ src = ".", dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "", delay = 3000, config }) {
+function builder({ src = ".", dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "", delay = 3000, config = {}, noBuildFile = [] }) {
   console.log("Start build")
   exists(dst)
-  copy({ src, dst, ignoreDir, ignoreFile, vipCode, copyright, delay, config })
+  copy({ src, dst, ignoreDir, ignoreFile, vipCode, copyright, delay, config, noBuildFile })
 }
 
-function copy({ src, dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "", delay = 3000, config = {} }) {
+function copy({ src, dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "", delay = 3000, config = {}, noBuildFile = [] }) {
   if (!src) {
     return
   }
@@ -23,7 +23,7 @@ function copy({ src, dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "
     const _dst = dst + "/" + file
     const st = fs.statSync(_src)
     if (st.isFile()) {
-      if (ignore(ignoreFile, file)) {
+      if (ignore(ignoreFile, _src)) {
         return
       }
       if (path.extname(_src) === ".js") {
@@ -37,27 +37,24 @@ function copy({ src, dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "
           Object.keys(config).length > 0 && (param.config = config)
           const res = await axios.post('https://www.jshaman.com:4430/submit_js_code/', param)
           console.log("build file:", _src, "=>", _dst, bytesToSize(st.size), res.data.message)
-          if (res.data && res.data.status === 0) {
+          if (res.data && res.data.status === 0 && !ignore(noBuildFile, _src)) {
             fs.writeFileSync(_dst, (copyright ? "/* " + copyright + " */" : "") + res.data.content.substring(29, res.data.content.length))
-          }else{
+          } else {
             fs.writeFileSync(_dst, readable)
           }
         }, t);
       } else {
         console.log("build file:", _src, "=>", _dst, bytesToSize(st.size))
-        // 创建读取流
         readable = fs.createReadStream(_src);
-        // 创建写入流
         writable = fs.createWriteStream(_dst);
-        // 通过管道来传输流
         readable.pipe(writable);
       }
     } else if (st.isDirectory()) {
-      if (ignore(ignoreDir, file)) {
+      if (ignore(ignoreDir, _src)) {
         return
       }
       makeDir(_dst)
-      copy({ src: _src, dst: _dst, ignoreDir, ignoreFile, vipCode, copyright, delay, config })
+      copy({ src: _src, dst: _dst, ignoreDir, ignoreFile, vipCode, copyright, delay, config, noBuildFile })
     }
   })
 }
