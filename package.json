@@ -1,6 +1,6 @@
 {
   "name": "zyd-server-build",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "基于jshaman的js混淆build库",
   "main": "index.js",
   "scripts": {
