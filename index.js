@@ -6,7 +6,7 @@
 const { builder } = require("./loader")
 
 class ZydBuild {
-  constructor({ src, dst, ignoreDir = [], ignoreFile = [], vipCode = "free", copyright = "", delay = 3000 } = {}) {
+  constructor({ src, dst, ignoreDir = [], ignoreFile = [], vipCode = "free", copyright = "", delay = 3000, config = {} } = {}) {
     this.src = src || "./"
     this.dst = dst || "./build"
     this.ignoreDir = [".git", "build", "node_modules", ...ignoreDir]
@@ -14,6 +14,7 @@ class ZydBuild {
     this.vipCode = vipCode || "free"
     this.copyright = copyright || ""
     this.delay = delay || 3000
+    this.config = config || {}
   }
 
   build() {
@@ -25,6 +26,7 @@ class ZydBuild {
       vipCode: this.vipCode,
       copyright: this.copyright,
       delay: this.delay,
+      config: this.config,
     })
   }
 }
