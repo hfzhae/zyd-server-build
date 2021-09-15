@@ -19,8 +19,12 @@ const app = new Zsb({
   src: "../", // 源文件夹
   dst: "../build", // 目标文件夹
   noBuildFile: ["..//server/config/index.js"], // 不需要混淆压缩的文件，文件路径前需要包含src的内容，如实例，会被无改动打包到目标文件夹中
-  ignoreDir: ["..//client"], // 需要忽略的文件夹，文件夹路径前需要包含src的内容，如实例，忽略后不会被打包到目标文件夹中
-  ignoreFile: ["..//server/publicCode/publicService.js", "..//.gitmodules"], // 需要忽略的文件，文件路径前需要包含src的内容，如实例，忽略后不会被打包到目标文件夹中
+  ignoreDir: [ // 需要忽略的文件夹，文件夹路径前需要包含src的内容，如实例，忽略后不会被打包到目标文件夹中
+    "..//.git", 
+    "..//build", 
+    "..//server/node_modules", 
+  ], 
+  ignoreFile: ["..//.gitmodules"], // 需要忽略的文件，文件路径前需要包含src的内容，如实例，忽略后不会被打包到目标文件夹中
   vipCode: "free", // jshaman 的 vip号码
   copyright: "Powered by zydsoft™",
   delay: 3000, // jshaman保护文件处理的间隔时间，默认3000毫秒，过短会导致保护失败

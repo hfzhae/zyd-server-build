@@ -19,8 +19,8 @@ class ZydBuild {
   } = {}) {
     this.src = src || "./"
     this.dst = dst || "./build"
-    this.ignoreDir = [".git", "build", "node_modules", ...ignoreDir]
-    this.ignoreFile = ["build.js", ...ignoreFile]
+    this.ignoreDir = ignoreDir || []
+    this.ignoreFile = ignoreFile || []
     this.vipCode = vipCode || "free"
     this.copyright = copyright || ""
     this.delay = delay || 3000
