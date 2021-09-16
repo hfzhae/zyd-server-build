@@ -36,7 +36,7 @@ function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [
           const result = UglifyJS.minify(readable, {
             mangle: { toplevel: true, keep_fnames: true, eval: true },
           });
-          fs.writeFileSync(_dst, (copyright ? "/* " + copyright + " */" : "") + result)
+          fs.writeFileSync(_dst, (copyright ? "/* " + copyright + " */" : "") + result.code)
           console.log("build file:", _src, "=>", _dst, bytesToSize(st.size), "JS代码已混淆")
         }
       } else {
