@@ -6,11 +6,15 @@
 const UglifyJS = require("uglify-js")
 const fs = require("fs")
 const path = require("path")
+const count = [0, 0]
 
 function builder({ src = ".", dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [] }) {
-  console.log("Start build")
+  console.log("Start build...")
   exists(dst)
   copy({ src, dst, ignoreDir, ignoreFile, copyright, noBuildFile })
+  console.log("build success √")
+  console.log(`Number of files: ${count[0]}`)
+  console.log(`Confusion number: ${count[1]}`)
 }
 
 function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [] }) {
@@ -22,25 +26,39 @@ function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [
     const _dst = dst + "/" + file
     const st = fs.statSync(_src)
     if (st.isFile()) {
+      count[0]++
       if (ignore(ignoreFile, _src)) {
+        console.log(_src, "=>", _dst, bytesToSize(st.size), "Skip x")
         return
       }
       if (path.extname(_src) === ".js") {
         if (ignore(noBuildFile, _src)) {
-          console.log(_src, "=>", _dst, bytesToSize(st.size))
+          console.log(_src, "=>", _dst, bytesToSize(st.size), "√")
           readable = fs.createReadStream(_src);
           writable = fs.createWriteStream(_dst);
           readable.pipe(writable);
         } else {
           readable = fs.readFileSync(_src, 'utf-8')
           const result = UglifyJS.minify(readable, {
-            mangle: { toplevel: true, keep_fnames: true, eval: true },
+            mangle: {
+              toplevel: true,
+              keep_fnames: true,
+              eval: true,
+              // properties: true,
+            },
+            compress: {
+              dead_code: true,
+              global_defs: {
+                DEBUG: false
+              }
+            },
           });
           fs.writeFileSync(_dst, (copyright ? "/* " + copyright + " */" : "") + result.code)
-          console.log(_src, "=>", _dst, bytesToSize(st.size), "代码已混淆")
+          console.log(_src, "=>", _dst, bytesToSize(st.size), "Code confused √")
+          count[1]++
         }
       } else {
-        console.log(_src, "=>", _dst, bytesToSize(st.size))
+        console.log(_src, "=>", _dst, bytesToSize(st.size), "√")
         readable = fs.createReadStream(_src);
         writable = fs.createWriteStream(_dst);
         readable.pipe(writable);
