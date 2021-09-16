@@ -44,6 +44,9 @@ function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [
         } else {
           readable = fs.readFileSync(_src, 'utf-8')
           const result = UglifyJS.minify(readable, {
+            output: {
+              ascii_only: true,
+            },
             mangle: {
               toplevel: true,
               keep_fnames: true,
@@ -52,6 +55,10 @@ function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [
             },
             compress: {
               dead_code: true,
+              booleans: true,
+              loops: true,
+              hoist_vars: true,
+              properties: false,
               global_defs: {
                 DEBUG: false
               }
