@@ -54,6 +54,7 @@ function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [
               // properties: true,
             },
             compress: {
+              drop_console: true,
               dead_code: true,
               booleans: true,
               loops: true,
