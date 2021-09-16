@@ -56,10 +56,18 @@ function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [
             compress: {
               drop_console: true,
               dead_code: true,
+              drop_debugger: true,
+              hoist_funs: true,
+              join_vars: true,
               booleans: true,
               loops: true,
               hoist_vars: true,
               properties: false,
+              unsafe_math: true,
+              unused: true,
+              pure_getters: true,
+              keep_fnames: true,
+              passes: 10,
               global_defs: {
                 DEBUG: false
               }
