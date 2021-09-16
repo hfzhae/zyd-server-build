@@ -6,7 +6,7 @@
 const UglifyJS = require("uglify-js")
 const fs = require("fs")
 const path = require("path")
-const count = [0, 0, 0, 0, 0]
+const count = [0, 0, 0]
 
 function builder({ src = ".", dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [] }) {
   console.log("Start build...")
@@ -14,10 +14,8 @@ function builder({ src = ".", dst, ignoreDir, ignoreFile, copyright = "", noBuil
   copy({ src, dst, ignoreDir, ignoreFile, copyright, noBuildFile })
   console.log("build success √")
   console.log(`Number of files: ${count[0]}`)
-  console.log(`Skip number: ${count[3]}`)
   console.log(`Confusion number: ${count[1]}`)
   console.log(`size: ${bytesToSize(count[2])}`)
-  console.log(`Skip size: ${bytesToSize(count[4])}`)
 }
 
 function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [] }) {
@@ -32,10 +30,9 @@ function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [
       count[2] += st.size
       count[0]++
       if (ignore(ignoreFile, _src)) {
+        count[2] -= st.size
         console.log(_src, "=>", _dst, bytesToSize(st.size), "Skip x")
-        // count[0]--
-        count[3]++
-        count[4] += fs.statSync(_src).size
+        count[0]--
         return
       }
       if (path.extname(_src) === ".js") {
