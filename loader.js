@@ -29,6 +29,7 @@ function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [
       count[0]++
       if (ignore(ignoreFile, _src)) {
         console.log(_src, "=>", _dst, bytesToSize(st.size), "Skip x")
+        count[0]--
         return
       }
       if (path.extname(_src) === ".js") {
