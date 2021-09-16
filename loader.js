@@ -8,17 +8,17 @@ const fs = require("fs")
 const path = require("path")
 const count = [0, 0, 0]
 
-function builder({ src = ".", dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [] }) {
+function builder({ src = ".", dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [], noBuildDir = [] }) {
   console.log("Start build...")
   exists(dst)
-  copy({ src, dst, ignoreDir, ignoreFile, copyright, noBuildFile })
+  copy({ src, dst, ignoreDir, ignoreFile, copyright, noBuildFile, noBuildDir })
   console.log("build success √")
   console.log(`Number of files: ${count[0]}`)
   console.log(`Confusion number: ${count[1]}`)
   console.log(`size: ${bytesToSize(count[2])}`)
 }
 
-function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [] }) {
+function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [], noBuildDir = [], confused = 1 }) {
   if (!src) {
     return
   }
@@ -36,7 +36,7 @@ function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [
         return
       }
       if (path.extname(_src) === ".js") {
-        if (ignore(noBuildFile, _src)) {
+        if (ignore(noBuildFile, _src) || confused === 0) {
           console.log(_src, "=>", _dst, bytesToSize(st.size), "√")
           readable = fs.createReadStream(_src);
           writable = fs.createWriteStream(_dst);
@@ -90,7 +90,7 @@ function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [
         return
       }
       makeDir(_dst)
-      copy({ src: _src, dst: _dst, ignoreDir, ignoreFile, copyright, noBuildFile })
+      copy({ src: _src, dst: _dst, ignoreDir, ignoreFile, copyright, noBuildFile, noBuildDir, confused: ignore(noBuildDir, _src) ? 0 : 1 })
     }
   })
 }

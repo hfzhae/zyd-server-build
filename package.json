@@ -1,6 +1,6 @@
 {
   "name": "zyd-server-build",
-  "version": "1.0.28",
+  "version": "1.0.30",
   "description": "基于uglify-js的js混淆build库",
   "main": "index.js",
   "scripts": {

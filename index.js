@@ -12,7 +12,8 @@ class ZydBuild {
     ignoreDir = [],
     ignoreFile = [],
     copyright = "",
-    noBuildFile = []
+    noBuildFile = [],
+    noBuildDir = []
   } = {}) {
     this.src = src || "./"
     this.dst = dst || "./build"
@@ -20,6 +21,7 @@ class ZydBuild {
     this.ignoreFile = ignoreFile || []
     this.copyright = copyright || ""
     this.noBuildFile = noBuildFile || []
+    this.noBuildDir = noBuildDir || []
   }
 
   build() {
@@ -30,6 +32,7 @@ class ZydBuild {
       ignoreFile: this.ignoreFile,
       copyright: this.copyright,
       noBuildFile: this.noBuildFile,
+      noBuildDir: this.noBuildDir,
     })
   }
 }
