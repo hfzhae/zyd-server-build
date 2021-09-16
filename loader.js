@@ -27,7 +27,7 @@ function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [
       }
       if (path.extname(_src) === ".js") {
         if (ignore(noBuildFile, _src)) {
-          console.log("build file:", _src, "=>", _dst, bytesToSize(st.size))
+          console.log(_src, "=>", _dst, bytesToSize(st.size))
           readable = fs.createReadStream(_src);
           writable = fs.createWriteStream(_dst);
           readable.pipe(writable);
@@ -37,10 +37,10 @@ function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [
             mangle: { toplevel: true, keep_fnames: true, eval: true },
           });
           fs.writeFileSync(_dst, (copyright ? "/* " + copyright + " */" : "") + result.code)
-          console.log("build file:", _src, "=>", _dst, bytesToSize(st.size), "JS代码已混淆")
+          console.log(_src, "=>", _dst, bytesToSize(st.size), "代码已混淆")
         }
       } else {
-        console.log("build file:", _src, "=>", _dst, bytesToSize(st.size))
+        console.log(_src, "=>", _dst, bytesToSize(st.size))
         readable = fs.createReadStream(_src);
         writable = fs.createWriteStream(_dst);
         readable.pipe(writable);

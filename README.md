@@ -23,7 +23,7 @@ const app = new Zsb({
     "..//server/node_modules", 
   ], 
   ignoreFile: ["..//.gitmodules"], // 需要忽略的文件，文件路径前需要包含src的内容，如实例，忽略后不会被打包到目标文件夹中
-  copyright: "Powered by zydsoft™",
+  copyright: "Powered by zydsoft™", // 版权申明
 }) 
 app.build()
 ```
