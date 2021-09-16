@@ -7,15 +7,18 @@ const UglifyJS = require("uglify-js")
 const fs = require("fs")
 const path = require("path")
 const count = [0, 0, 0]
+const timer = []
 
 function builder({ src = ".", dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [], noBuildDir = [] }) {
   console.log("Start build...")
+  timer[0] = new Date()
   exists(dst)
   copy({ src, dst, ignoreDir, ignoreFile, copyright, noBuildFile, noBuildDir })
   console.log("build success √")
-  console.log(`Number of files: ${count[0]}`)
-  console.log(`Confusion number: ${count[1]}`)
+  console.log(`number of files: ${count[0]}`)
+  console.log(`confusion number: ${count[1]}`)
   console.log(`size: ${bytesToSize(count[2])}`)
+  console.log(`time consuming: ${formatDuration(new Date() - timer[0])}`)
 }
 
 function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [], noBuildDir = [], confused = 1 }) {
@@ -180,6 +183,21 @@ function bytesToSize(bytes) {
 function sleep(milliSeconds) {
   const startTime = new Date().getTime()
   while (new Date().getTime() < startTime + milliSeconds) { }
+}
+
+function formatDuration(ms) {
+  if (ms < 0) ms = -ms;
+  const time = {
+    day: Math.floor(ms / 86400000),
+    hour: Math.floor(ms / 3600000) % 24,
+    minute: Math.floor(ms / 60000) % 60,
+    second: Math.floor(ms / 1000) % 60,
+    millisecond: Math.floor(ms) % 1000
+  };
+  return Object.entries(time)
+    .filter(val => val[1] !== 0)
+    .map(([key, val]) => `${val} ${key}${val !== 1 ? 's' : ''}`)
+    .join(', ');
 }
 
 module.exports = {
