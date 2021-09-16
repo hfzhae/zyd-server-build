@@ -6,7 +6,7 @@
 const UglifyJS = require("uglify-js")
 const fs = require("fs")
 const path = require("path")
-const count = [0, 0, 0]
+const count = [0, 0, 0, 0, 0]
 
 function builder({ src = ".", dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [] }) {
   console.log("Start build...")
@@ -14,8 +14,10 @@ function builder({ src = ".", dst, ignoreDir, ignoreFile, copyright = "", noBuil
   copy({ src, dst, ignoreDir, ignoreFile, copyright, noBuildFile })
   console.log("build success √")
   console.log(`Number of files: ${count[0]}`)
+  console.log(`Skip number: ${count[3]}`)
   console.log(`Confusion number: ${count[1]}`)
-  console.log(`Overall size: ${bytesToSize(count[2])}`)
+  console.log(`size: ${bytesToSize(count[2])}`)
+  console.log(`Skip size: ${bytesToSize(count[4])}`)
 }
 
 function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [] }) {
@@ -31,7 +33,9 @@ function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [
       count[0]++
       if (ignore(ignoreFile, _src)) {
         console.log(_src, "=>", _dst, bytesToSize(st.size), "Skip x")
-        count[0]--
+        // count[0]--
+        count[3]++
+        count[4] += fs.statSync(_src).size
         return
       }
       if (path.extname(_src) === ".js") {
@@ -66,6 +70,8 @@ function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [
         writable = fs.createWriteStream(_dst);
         readable.pipe(writable);
       }
+      // sleep(100)
+      // count[3] += fs.statSync(_dst).size
     } else if (st.isDirectory()) {
       if (ignore(ignoreDir, _src)) {
         return
@@ -152,6 +158,15 @@ function bytesToSize(bytes) {
   //return (bytes / Math.pow(k, i)) + ' ' + sizes[i];
   return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
   //toPrecision(3) 后面保留两位小数，如1.00GB  
+}
+
+/**
+ * 阻塞函数
+ * @param {Number} milliSeconds 毫秒数 
+ */
+function sleep(milliSeconds) {
+  const startTime = new Date().getTime()
+  while (new Date().getTime() < startTime + milliSeconds) { }
 }
 
 module.exports = {
