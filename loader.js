@@ -3,22 +3,21 @@
  * 2021-9-14
  * zz
  */
-const axios = require("axios")
+const UglifyJS = require("uglify-js")
 const fs = require("fs")
 const path = require("path")
-let t = 0
 
-function builder({ src = ".", dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "", delay = 5000, config = {}, noBuildFile = [] }) {
+function builder({ src = ".", dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [] }) {
   console.log("Start build")
   exists(dst)
-  copy({ src, dst, ignoreDir, ignoreFile, vipCode, copyright, delay, config, noBuildFile })
+  copy({ src, dst, ignoreDir, ignoreFile, copyright, noBuildFile })
 }
 
-function copy({ src, dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "", delay = 5000, config = {}, noBuildFile = [] }) {
+function copy({ src, dst, ignoreDir, ignoreFile, copyright = "", noBuildFile = [] }) {
   if (!src) {
     return
   }
-  fs.readdirSync(src).forEach(async file => {
+  fs.readdirSync(src).forEach(file => {
     const _src = src + "/" + file
     const _dst = dst + "/" + file
     const st = fs.statSync(_src)
@@ -33,22 +32,12 @@ function copy({ src, dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "
           writable = fs.createWriteStream(_dst);
           readable.pipe(writable);
         } else {
-          t += delay
-          await setTimeout(async () => {
-            readable = fs.readFileSync(_src, 'utf-8')
-            const param = {
-              js_code: readable,
-              vip_code: vipCode,
-            }
-            Object.keys(config).length > 0 && (param.config = config)
-            const res = await axios.post('https://www.jshaman.com:4430/submit_js_code/', param)
-            console.log("build file:", _src, "=>", _dst, bytesToSize(st.size), res.data.message)
-            if (res.data && res.data.status === 0) {
-              fs.writeFileSync(_dst, (copyright ? "/* " + copyright + " */" : "") + res.data.content.substring(29, res.data.content.length))
-            } else {
-              fs.writeFileSync(_dst, readable)
-            }
-          }, t);
+          readable = fs.readFileSync(_src, 'utf-8')
+          const result = UglifyJS.minify(readable, {
+            mangle: { toplevel: true, keep_fnames: true, eval: true },
+          });
+          fs.writeFileSync(_dst, (copyright ? "/* " + copyright + " */" : "") + result)
+          console.log("build file:", _src, "=>", _dst, bytesToSize(st.size), "JS代码已混淆")
         }
       } else {
         console.log("build file:", _src, "=>", _dst, bytesToSize(st.size))
@@ -61,7 +50,7 @@ function copy({ src, dst, ignoreDir, ignoreFile, vipCode = "free", copyright = "
         return
       }
       makeDir(_dst)
-      copy({ src: _src, dst: _dst, ignoreDir, ignoreFile, vipCode, copyright, delay, config, noBuildFile })
+      copy({ src: _src, dst: _dst, ignoreDir, ignoreFile, copyright, noBuildFile })
     }
   })
 }

@@ -11,20 +11,14 @@ class ZydBuild {
     dst,
     ignoreDir = [],
     ignoreFile = [],
-    vipCode = "free",
     copyright = "",
-    delay = 3000,
-    config = {},
     noBuildFile = []
   } = {}) {
     this.src = src || "./"
     this.dst = dst || "./build"
     this.ignoreDir = ignoreDir || []
     this.ignoreFile = ignoreFile || []
-    this.vipCode = vipCode || "free"
     this.copyright = copyright || ""
-    this.delay = delay || 5000
-    this.config = config || {}
     this.noBuildFile = noBuildFile || []
   }
 
@@ -34,10 +28,7 @@ class ZydBuild {
       dst: this.dst,
       ignoreDir: this.ignoreDir,
       ignoreFile: this.ignoreFile,
-      vipCode: this.vipCode,
       copyright: this.copyright,
-      delay: this.delay,
-      config: this.config,
       noBuildFile: this.noBuildFile,
     })
   }
