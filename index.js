@@ -13,6 +13,7 @@ function build({ src, dst, ignoreDir = [], ignoreFile = [], copyright = "", noBu
   if (!src || !dst) {
     return
   }
+  ignoreDir.length > 0 && ignoreDir.push(dst)
   fs.readdirSync(src).forEach(file => {
     const _src = src + "/" + file
     const _dst = dst + "/" + file
@@ -191,8 +192,8 @@ function formatDuration(ms) {
 module.exports = ({
   src = ".",
   dst = "./build",
-  ignoreDir = ["./build", "./node_modules"],
-  ignoreFile = ["./build.js", ],
+  ignoreDir = ["./.git", "./node_modules"],
+  ignoreFile = ["./build.js"],
   copyright = "",
   noBuildFile = [],
   noBuildDir = []
