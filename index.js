@@ -23,13 +23,13 @@ function build({ src, dst, ignoreDir = [], ignoreFile = [], copyright = "", noBu
       count[0]++
       if (ignore(ignoreFile, _src)) {
         count[2] -= st.size
-        console.log(_src, "=>", _dst, bytesToSize(st.size), "Skip x")
+        console.log(_src, "\x1B[36m=>\x1B[0m", _dst, `\x1B[33m${bytesToSize(st.size)}\x1B[0m`, "\x1B[31mSkip x\x1B[0m")
         count[0]--
         return
       }
       if (path.extname(_src) === ".js") {
         if (ignore(noBuildFile, _src) || confused === 0) {
-          console.log(_src, "=>", _dst, bytesToSize(st.size), "√")
+          console.log(_src, "\x1B[36m=>\x1B[0m", _dst, `\x1B[33m${bytesToSize(st.size)}\x1B[0m`, "\x1B[32m√\x1B[0m")
           readable = fs.createReadStream(_src);
           writable = fs.createWriteStream(_dst);
           readable.pipe(writable);
@@ -66,11 +66,11 @@ function build({ src, dst, ignoreDir = [], ignoreFile = [], copyright = "", noBu
             },
           });
           fs.writeFileSync(_dst, (copyright ? "/* " + copyright + " */" : "") + result.code)
-          console.log(_src, "=>", _dst, bytesToSize(st.size), "Code confused √")
+          console.log(_src, "\x1B[36m=>\x1B[0m", _dst, `\x1B[33m${bytesToSize(st.size)}\x1B[0m`, "\x1B[32mCode confused √\x1B[0m")
           count[1]++
         }
       } else {
-        console.log(_src, "=>", _dst, bytesToSize(st.size), "√")
+        console.log(_src, "\x1B[36m=>\x1B[0m", _dst, `\x1B[33m${bytesToSize(st.size)}\x1B[0m`, "\x1B[32m√\x1B[0m")
         readable = fs.createReadStream(_src);
         writable = fs.createWriteStream(_dst);
         readable.pipe(writable);
@@ -198,13 +198,13 @@ module.exports = ({
   noBuildFile = [],
   noBuildDir = []
 } = {}) => {
-  console.log("Start build...")
+  console.log("\x1B[36m\x1B[1mStart build...\x1B[0m\x1B[0m")
   timer[0] = new Date()
   exists(dst)
   build({ src, dst, ignoreDir, ignoreFile, copyright, noBuildFile, noBuildDir })
-  console.log("build success √")
-  console.log(`number of files: ${count[0]}`)
-  console.log(`confusion number: ${count[1]}`)
-  console.log(`size: ${bytesToSize(count[2])}`)
-  console.log(`time consuming: ${formatDuration(new Date() - timer[0])}`)
+  console.log("\x1B[1m\x1B[32mbuild success √\x1B[0m\x1B[0m")
+  console.log(`number of files: \x1B[36m${count[0]}\x1B[0m`)
+  console.log(`confusion number: \x1B[36m${count[1]}\x1B[0m`)
+  console.log(`size: \x1B[36m${bytesToSize(count[2])}\x1B[0m`)
+  console.log(`time consuming: \x1B[36m${formatDuration(new Date() - timer[0])}\x1B[0m`)
 }
