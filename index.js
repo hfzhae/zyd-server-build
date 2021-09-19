@@ -40,26 +40,25 @@ function build({ src, dst, ignoreDir = [], ignoreFile = [], copyright = "", noBu
               ascii_only: true,
             },
             mangle: {
-              toplevel: true,
-              keep_fnames: true,
-              eval: true,
-              // properties: true,
+              toplevel: true, // 干掉顶层作用域中没有被引用的函数 ("funcs")和/或变量("vars") (默认是false , true 的话即函数变量都干掉)
+              keep_fnames: true, // 默认 false。传 true来防止压缩器干掉函数名。对那些依赖
+              eval: true, // 混淆那些在with或eval中出现的名字（默认禁用）。
             },
             compress: {
-              drop_console: true,
-              dead_code: true,
-              drop_debugger: true,
-              hoist_funs: true,
-              join_vars: true,
-              booleans: true,
-              loops: true,
-              hoist_vars: true,
-              properties: false,
-              unsafe_math: true,
-              unused: true,
-              pure_getters: true,
-              keep_fnames: true,
-              passes: 10,
+              drop_console: true, // 删除console
+              dead_code: true, // 移除没被引用的代码
+              drop_debugger: true, // 移除 debugger;
+              hoist_funs: true, // 提升函数声明
+              join_vars: true, // 合并连续 var 声明
+              booleans: true, // 优化布尔运算，例如 !!a? b : c → a ? b : c
+              loops: true, // 当do、while 、 for循环的判断条件可以确定是，对其进行优化。
+              hoist_vars: true, //  (默认 false) -- 提升 var 声明 (默认是false,因为那会加大文件的size)
+              properties: false, // (默认 false) — 传一个对象来自定义指明混淆对象属性的选项。
+              unsafe_math: true, // (默认 false) -- 优化数字表达式，例如2 * x * 3 变成 6 * x, 可能会导致不精确的浮点数结果。
+              unused: true, //  干掉没有被引用的函数和变量。（除非设置"keep_assign"，否则变量的简单直接赋值也不算被引用。）
+              pure_getters: true, // 默认是 false. 如果你传入true，UglifyJS会假设对象属性的引用（例如foo.bar 或 foo["bar"]）没有函数副作用。
+              keep_fnames: true, // 默认 false。传 true来防止压缩器干掉函数名。对那些依赖
+              passes: 10, // 默认 1。运行压缩的次数。在某些情况下，用一个大于1的数字参数可以进一步压缩代码大小。注意：数字越大压缩耗时越长。
               global_defs: {
                 DEBUG: false
               }
@@ -198,13 +197,25 @@ module.exports = ({
   noBuildFile = [],
   noBuildDir = []
 } = {}) => {
+  console.log(`\x1B[33m
+┌─────────────────────┐
+│ Powered by zydsoft™ │
+│  zyd-server-build   │
+└─────────────────────┘
+\x1B[0m`)
   console.log("\x1B[36m\x1B[1mStart build...\x1B[0m\x1B[0m")
   timer[0] = new Date()
   exists(dst)
   build({ src, dst, ignoreDir, ignoreFile, copyright, noBuildFile, noBuildDir })
-  console.log("\x1B[1m\x1B[32mbuild success √\x1B[0m\x1B[0m")
+  console.log("")
   console.log(`number of files: \x1B[36m${count[0]}\x1B[0m`)
   console.log(`confusion number: \x1B[36m${count[1]}\x1B[0m`)
   console.log(`size: \x1B[36m${bytesToSize(count[2])}\x1B[0m`)
   console.log(`time consuming: \x1B[36m${formatDuration(new Date() - timer[0])}\x1B[0m`)
+  // console.log("\x1B[1m\x1B[32mbuild success √\x1B[0m\x1B[0m")
+  console.log(`\x1B[1m\x1B[32m
+┌─────────────────┐
+│ build success √ │
+└─────────────────┘
+\x1B[0m\x1B[0m`)
 }
