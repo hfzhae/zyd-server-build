@@ -11,11 +11,13 @@ $ npm install -s zyd-server-build
 ```
 
 ## Quickstart
+>/build.js
 ```js
 const zsb = require("zyd-server-build")
 zsb()
 ```
 ## Options
+>/build.js
 ```js
 const zsb = require("zyd-server-build")
 zsb({
