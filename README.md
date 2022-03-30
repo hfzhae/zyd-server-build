@@ -30,6 +30,7 @@ zsb({
     "../server/node_modules", 
   ], 
   ignoreFile: ["../.gitmodules"], // 需要忽略的文件（完整路径），文件路径前需要包含src的内容，如实例，忽略后不会被打包到目标文件夹中
+  noDeleteDir: [".git", "node_modules"], // 需要忽略删除的文件或文件夹，默认：[".git", "node_modules"]
   copyright: "Powered by zydsoft™", // 版权申明
 })
 ```
