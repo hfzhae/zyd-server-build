@@ -135,7 +135,7 @@ const delDir = (url, noDeleteDir) => {
   var files = []
   files = fs.readdirSync(url)
   for (var i = 0; i < files.length; i++) {
-    if (noDeleteDir.find(item => item === files[i])) {
+    if (!noDeleteDir.find(item => item === files[i])) {
       var path = url + '/' + files[i]
       if (fs.statSync(path).isFile()) {
         fs.unlinkSync(path)
