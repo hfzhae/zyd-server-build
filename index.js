@@ -45,7 +45,7 @@ function build ({ src, dst, ignoreDir = [], ignoreFile = [], copyright = "", noB
               eval: true, // 混淆那些在with或eval中出现的名字（默认禁用）。
             },
             compress: {
-              drop_console: true, // 删除console
+              drop_console: false, // 删除console
               dead_code: true, // 移除没被引用的代码
               drop_debugger: true, // 移除 debugger;
               hoist_funs: true, // 提升函数声明
